@@ -38,11 +38,11 @@
 		<Compile Include="src\Audio\SoundEffectInstance.cs" />
 		<Compile Include="src\Audio\SoundState.cs" />
 		<Compile Include="src\Audio\WaveBank.cs" />
-		<Compile Include="src\BoundingBox.cs" />
-		<Compile Include="src\BoundingFrustum.cs" />
-		<Compile Include="src\BoundingSphere.cs" />
+<!--		<Compile Include="src\BoundingBox.cs" />-->
+<!--		<Compile Include="src\BoundingFrustum.cs" />-->
+<!--		<Compile Include="src\BoundingSphere.cs" />-->
 		<Compile Include="src\Color.cs" />
-		<Compile Include="src\ContainmentType.cs" />
+<!--		<Compile Include="src\ContainmentType.cs" />-->
 		<Compile Include="src\Content\ContentExtensions.cs" />
 		<Compile Include="src\Content\ContentLoadException.cs" />
 		<Compile Include="src\Content\ContentManager.cs" />
@@ -118,19 +118,19 @@
 		<Compile Include="src\CurveKeyCollection.cs" />
 		<Compile Include="src\CurveLoopType.cs" />
 		<Compile Include="src\CurveTangent.cs" />
-		<Compile Include="src\Design\BoundingBoxConverter.cs" />
-		<Compile Include="src\Design\BoundingSphereConverter.cs" />
+<!--		<Compile Include="src\Design\BoundingBoxConverter.cs" />-->
+<!--		<Compile Include="src\Design\BoundingSphereConverter.cs" />-->
 		<Compile Include="src\Design\ColorConverter.cs" />
-		<Compile Include="src\Design\MathTypeConverter.cs" />
-		<Compile Include="src\Design\MatrixConverter.cs" />
-		<Compile Include="src\Design\PlaneConverter.cs" />
-		<Compile Include="src\Design\PointConverter.cs" />
-		<Compile Include="src\Design\QuaternionConverter.cs" />
-		<Compile Include="src\Design\RayConverter.cs" />
-		<Compile Include="src\Design\RectangleConverter.cs" />
-		<Compile Include="src\Design\Vector2Converter.cs" />
-		<Compile Include="src\Design\Vector3Converter.cs" />
-		<Compile Include="src\Design\Vector4Converter.cs" />
+<!--		<Compile Include="src\Design\MathTypeConverter.cs" />-->
+<!--		<Compile Include="src\Design\MatrixConverter.cs" />-->
+<!--		<Compile Include="src\Design\PlaneConverter.cs" />-->
+<!--		<Compile Include="src\Design\PointConverter.cs" />-->
+<!--		<Compile Include="src\Design\QuaternionConverter.cs" />-->
+<!--		<Compile Include="src\Design\RayConverter.cs" />-->
+<!--		<Compile Include="src\Design\RectangleConverter.cs" />-->
+<!--		<Compile Include="src\Design\Vector2Converter.cs" />-->
+<!--		<Compile Include="src\Design\Vector3Converter.cs" />-->
+<!--		<Compile Include="src\Design\Vector4Converter.cs" />-->
 		<Compile Include="src\DisplayOrientation.cs" />
 		<Compile Include="src\DrawableGameComponent.cs" />
 		<Compile Include="src\FNALoggerEXT.cs" />
@@ -303,8 +303,8 @@
 		<Compile Include="src\Input\Touch\TouchPanelCapabilities.cs" />
 		<Compile Include="src\IUpdateable.cs" />
 		<Compile Include="src\LaunchParameters.cs" />
-		<Compile Include="src\MathHelper.cs" />
-		<Compile Include="src\Matrix.cs" />
+<!--		<Compile Include="src\MathHelper.cs" />-->
+<!--		<Compile Include="src\Matrix.cs" />-->
 		<Compile Include="src\Media\Album.cs" />
 		<Compile Include="src\Media\AlbumCollection.cs" />
 		<Compile Include="src\Media\Artist.cs" />
@@ -330,15 +330,15 @@
 		<Compile Include="src\Media\Xiph\Video.cs" />
 		<Compile Include="src\Media\Xiph\VideoPlayer.cs" />
 		<Compile Include="src\NamespaceDocs.cs" />
-		<Compile Include="src\Plane.cs" />
-		<Compile Include="src\PlaneIntersectionType.cs" />
+<!--		<Compile Include="src\Plane.cs" />-->
+<!--		<Compile Include="src\PlaneIntersectionType.cs" />-->
 		<Compile Include="src\PlayerIndex.cs" />
-		<Compile Include="src\Point.cs" />
+<!--		<Compile Include="src\Point.cs" />-->
 		<Compile Include="src\PreparingDeviceSettingsEventArgs.cs" />
 		<Compile Include="src\Properties\AssemblyInfo.cs" />
-		<Compile Include="src\Quaternion.cs" />
-		<Compile Include="src\Ray.cs" />
-		<Compile Include="src\Rectangle.cs" />
+<!--		<Compile Include="src\Quaternion.cs" />-->
+<!--		<Compile Include="src\Ray.cs" />-->
+<!--		<Compile Include="src\Rectangle.cs" />-->
 		<Compile Include="src\Storage\StorageContainer.cs" />
 		<Compile Include="src\Storage\StorageDevice.cs" />
 		<Compile Include="src\Storage\StorageDeviceNotConnectedException.cs" />
@@ -350,9 +350,9 @@
 		<Compile Include="src\Utilities\FNAInternalExtensions.cs" />
 		<Compile Include="src\Utilities\MarshalHelper.cs" />
 		<Compile Include="src\Utilities\XamarinHelper.cs" />
-		<Compile Include="src\Vector2.cs" />
-		<Compile Include="src\Vector3.cs" />
-		<Compile Include="src\Vector4.cs" />
+<!--		<Compile Include="src\Vector2.cs" />-->
+<!--		<Compile Include="src\Vector3.cs" />-->
+<!--		<Compile Include="src\Vector4.cs" />-->
 		<Compile Include="lib\SDL2-CS\src\SDL2.cs" />
 		<Compile Include="lib\SDL3-CS\SDL3\SDL3.Legacy.cs" />
 		<Compile Include="lib\FAudio\csharp\FAudio.cs" />
@@ -383,5 +383,8 @@
 		<EmbeddedResource Include="src\Graphics\Effect\YUVToRGBA\YUVToRGBAEffect.fxb">
 			<LogicalName>Microsoft.Xna.Framework.Graphics.Effect.Resources.YUVToRGBAEffect.fxb</LogicalName>
 		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\FNA.Math\FNA.Math.csproj" />
 	</ItemGroup>
 </Project>
