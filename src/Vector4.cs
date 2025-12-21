@@ -27,7 +27,7 @@ namespace Microsoft.Xna.Framework
 	[Serializable]
 	[TypeConverter(typeof(Vector4Converter))]
 	[DebuggerDisplay("{DebugDisplayString,nq}")]
-	public struct Vector4 : IEquatable<Vector4>
+	public partial struct Vector4 : IEquatable<Vector4>
 	{
 		#region Public Static Properties
 
