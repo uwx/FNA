@@ -441,13 +441,13 @@ namespace Microsoft.Xna.Framework.Design
 	            }
 
 	            if (NamedColors.TryGetAlternateLookup<ReadOnlySpan<char>>(out var lookup) &&
-	                lookup.TryGetValue(trimmed, out var argb))
+	                lookup.TryGetValue(trimmed, out var rgba))
 	            {
 		            return new Color(
-			            (byte)((argb >> 16) & 0xFF),
-			            (byte)((argb >> 8) & 0xFF),
-			            (byte)(argb & 0xFF),
-			            (byte)((argb >> 24) & 0xFF)
+			            (byte)((rgba >> 24) & 0xFF),
+			            (byte)((rgba >> 16) & 0xFF),
+			            (byte)((rgba >> 8) & 0xFF),
+			            (byte)(rgba & 0xFF)
 		            );
 	            }
 
