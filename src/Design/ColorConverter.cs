@@ -10,6 +10,7 @@
 #region Using Statements
 using System;
 using System.Collections;
+using System.Collections.Frozen;
 using System.ComponentModel;
 using System.Globalization;
 #endregion
@@ -26,6 +27,160 @@ namespace Microsoft.Xna.Framework.Design
 		}
 
 		#endregion
+
+        // Named colors as defined in CSS Color Module Level 4.
+        // https://www.w3.org/TR/css-color-4/#named-colors
+        private static readonly FrozenDictionary<string, uint> NamedColors = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase)
+        {
+            { "transparent", 0u },
+            { "antiquewhite", 0xFAEBD7FFu },
+            { "aqua", 0x00FFFFFFu },
+            { "aquamarine", 0x7FFFD4FFu },
+            { "azure", 0xF0FFFFFFu },
+            { "beige", 0xF5F5DCFFu },
+            { "bisque", 0xFFE4C4FFu },
+            { "black", 0x000000FFu },
+            { "blanchedalmond", 0xFFEBCDFFu },
+            { "blue", 0x0000FFFFu },
+            { "blueviolet", 0x8A2BE2FFu },
+            { "brown", 0xA52A2AFFu },
+            { "burlywood", 0xDEB887FFu },
+            { "cadetblue", 0x5F9EA0FFu },
+            { "chartreuse", 0x7FFF00FFu },
+            { "chocolate", 0xD2691EFFu },
+            { "coral", 0xFF7F50FFu },
+            { "cornflowerblue", 0x6495EDFFu },
+            { "cornsilk", 0xFFF8DCFFu },
+            { "crimson", 0xDC143CFFu },
+            { "cyan", 0x00FFFFFFu },
+            { "darkblue", 0x00008BFFu },
+            { "darkcyan", 0x008B8BFFu },
+            { "darkgoldenrod", 0xB8860BFFu },
+            { "darkgray", 0xA9A9A9FFu },
+            { "darkgreen", 0x006400FFu },
+            { "darkgrey", 0xA9A9A9FFu },
+            { "darkkhaki", 0xBDB76BFFu },
+            { "darkmagenta", 0x8B008BFFu },
+            { "darkolivegreen", 0x556B2FFFu },
+            { "darkorange", 0xFF8C00FFu },
+            { "darkorchid", 0x9932CCFFu },
+            { "darkred", 0x8B0000FFu },
+            { "darksalmon", 0xE9967AFFu },
+            { "darkseagreen", 0x8FBC8FFFu },
+            { "darkslateblue", 0x483D8BFFu },
+            { "darkslategray", 0x2F4F4FFFu },
+            { "darkslategrey", 0x2F4F4FFFu },
+            { "darkturquoise", 0x00CED1FFu },
+            { "darkviolet", 0x9400D3FFu },
+            { "deeppink", 0xFF1493FFu },
+            { "deepskyblue", 0x00BFFFFFu },
+            { "dimgray", 0x696969FFu },
+            { "dimgrey", 0x696969FFu },
+            { "dodgerblue", 0x1E90FFFFu },
+            { "firebrick", 0xB22222FFu },
+            { "floralwhite", 0xFFFAF0FFu },
+            { "forestgreen", 0x228B22FFu },
+            { "fuchsia", 0xFF00FFFFu },
+            { "gainsboro", 0xDCDCDCFFu },
+            { "ghostwhite", 0xF8F8FFFFu },
+            { "gold", 0xFFD700FFu },
+            { "goldenrod", 0xDAA520FFu },
+            { "gray", 0x808080FFu },
+            { "green", 0x008000FFu },
+            { "greenyellow", 0xADFF2FFFu },
+            { "grey", 0x808080FFu },
+            { "honeydew", 0xF0FFF0FFu },
+            { "hotpink", 0xFF69B4FFu },
+            { "indianred", 0xCD5C5CFFu },
+            { "indigo", 0x4B0082FFu },
+            { "ivory", 0xFFFFF0FFu },
+            { "khaki", 0xF0E68CFFu },
+            { "lavender", 0xE6E6FAFFu },
+            { "lavenderblush", 0xFFF0F5FFu },
+            { "lawngreen", 0x7CFC00FFu },
+            { "lemonchiffon", 0xFFFACDFFu },
+            { "lightblue", 0xADD8E6FFu },
+            { "lightcoral", 0xF08080FFu },
+            { "lightcyan", 0xE0FFFFFFu },
+            { "lightgoldenrodyellow", 0xFAFAD2FFu },
+            { "lightgray", 0xD3D3D3FFu },
+            { "lightgreen", 0x90EE90FFu },
+            { "lightgrey", 0xD3D3D3FFu },
+            { "lightpink", 0xFFB6C1FFu },
+            { "lightsalmon", 0xFFA07AFFu },
+            { "lightseagreen", 0x20B2AAFFu },
+            { "lightskyblue", 0x87CEFAFFu },
+            { "lightslategray", 0x778899FFu },
+            { "lightslategrey", 0x778899FFu },
+            { "lightsteelblue", 0xB0C4DEFFu },
+            { "lightyellow", 0xFFFFE0FFu },
+            { "lime", 0x00FF00FFu },
+            { "limegreen", 0x32CD32FFu },
+            { "linen", 0xFAF0E6FFu },
+            { "magenta", 0xFF00FFFFu },
+            { "maroon", 0x800000FFu },
+            { "mediumaquamarine", 0x66CDAAFFu },
+            { "mediumblue", 0x0000CDFFu },
+            { "mediumorchid", 0xBA55D3FFu },
+            { "mediumpurple", 0x9370DBFFu },
+            { "mediumseagreen", 0x3CB371FFu },
+            { "mediumslateblue", 0x7B68EEFFu },
+            { "mediumspringgreen", 0x00FA9AFFu },
+            { "mediumturquoise", 0x48D1CCFFu },
+            { "mediumvioletred", 0xC71585FFu },
+            { "midnightblue", 0x191970FFu },
+            { "mintcream", 0xF5FFFAFFu },
+            { "mistyrose", 0xFFE4E1FFu },
+            { "moccasin", 0xFFE4B5FFu },
+            { "navajowhite", 0xFFDEADFFu },
+            { "navy", 0x000080FFu },
+            { "oldlace", 0xFDF5E6FFu },
+            { "olive", 0x808000FFu },
+            { "olivedrab", 0x6B8E23FFu },
+            { "orange", 0xFFA500FFu },
+            { "orangered", 0xFF4500FFu },
+            { "orchid", 0xDA70D6FFu },
+            { "palegoldenrod", 0xEEE8AAFFu },
+            { "palegreen", 0x98FB98FFu },
+            { "paleturquoise", 0xAFEEEEFFu },
+            { "palevioletred", 0xDB7093FFu },
+            { "papayawhip", 0xFFEFD5FFu },
+            { "peachpuff", 0xFFDAB9FFu },
+            { "peru", 0xCD853FFFu },
+            { "pink", 0xFFC0CBFFu },
+            { "plum", 0xDDA0DDFFu },
+            { "powderblue", 0xB0E0E6FFu },
+            { "purple", 0x800080FFu },
+            { "rebeccapurple", 0x663399FFu },
+            { "red", 0xFF0000FFu },
+            { "rosybrown", 0xBC8F8FFFu },
+            { "royalblue", 0x4169E1FFu },
+            { "saddlebrown", 0x8B4513FFu },
+            { "salmon", 0xFA8072FFu },
+            { "sandybrown", 0xF4A460FFu },
+            { "seagreen", 0x2E8B57FFu },
+            { "seashell", 0xFFF5EEFFu },
+            { "sienna", 0xA0522DFFu },
+            { "silver", 0xC0C0C0FFu },
+            { "skyblue", 0x87CEEBFFu },
+            { "slateblue", 0x6A5ACDFFu },
+            { "slategray", 0x708090FFu },
+            { "slategrey", 0x708090FFu },
+            { "snow", 0xFFFAFAFFu },
+            { "springgreen", 0x00FF7FFFu },
+            { "steelblue", 0x4682B4FFu },
+            { "tan", 0xD2B48CFFu },
+            { "teal", 0x008080FFu },
+            { "thistle", 0xD8BFD8FFu },
+            { "tomato", 0xFF6347FFu },
+            { "turquoise", 0x40E0D0FFu },
+            { "violet", 0xEE82EEFFu },
+            { "wheat", 0xF5DEB3FFu },
+            { "white", 0xFFFFFFFFu },
+            { "whitesmoke", 0xF5F5F5FFu },
+            { "yellow", 0xFFFF00FFu },
+            { "yellowgreen", 0x9ACD32FFu }
+        }.ToFrozenDictionary();
 
 		public override object? ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
 	    {
@@ -141,42 +296,141 @@ namespace Microsoft.Xna.Framework.Design
 					            ParsePercent(CssTrim(rgbParts[4])) // convert 0-100% to 0-255
 				            );
 			            }
+		            }
+	            }
 
-			            static byte ParsePercent(ReadOnlySpan<char> str)
+	            // hsl(...) or hsla(...)
+	            if (trimmed.StartsWith("hsl", StringComparison.OrdinalIgnoreCase))
+	            {
+		            var start = trimmed.IndexOf('(');
+		            var end = trimmed.IndexOf(')');
+
+
+		            if (start >= 0 && end > start)
+		            {
+			            var inner = trimmed.Slice(start + 1, end - start - 1);
+			            var hslParts = inner.ToString().Split(' ');
+			            if (hslParts.Length == 3)
 			            {
-				            // 0-100%
-				            if (str.EndsWith("%"))
-				            {
-					            str = str[..^1].Trim();
-					            return (byte)(float.Parse(str, CultureInfo.InvariantCulture) * 2.55f);
-				            }
-
-				            // 0-1
-				            return (byte)(float.Parse(str, CultureInfo.InvariantCulture) * 255f);
+				            return FromHsl(
+					            ParseHue(CssTrim(hslParts[0])),
+					            ParsePercentFloat(CssTrim(hslParts[1])),
+					            ParsePercentFloat(CssTrim(hslParts[2]))
+				            );
 			            }
 
-			            static ReadOnlySpan<char> CssTrim(ReadOnlySpan<char> span)
+			            if (hslParts.Length == 4)
 			            {
-				            span = span.Trim();
-				            if (span.EndsWith(","))
-				            {
-					            span = span[..^1].Trim();
-				            }
-				            else if (span.StartsWith(","))
-				            {
-					            span = span[1..].Trim();
-				            }
-				            if (span.EndsWith(","))
-				            {
-					            span = span[..^1].Trim();
-				            }
-				            else if (span.StartsWith(","))
-				            {
-					            span = span[1..].Trim();
-				            }
-
-				            return span;
+				            return FromHsla(
+					            ParseHue(CssTrim(hslParts[0])),
+					            ParsePercentFloat(CssTrim(hslParts[1])),
+					            ParsePercentFloat(CssTrim(hslParts[2])),
+					            ParsePercent(CssTrim(hslParts[3]))
+				            );
 			            }
+
+			            if (hslParts.Length == 5)
+			            {
+				            // hsl(a b c / d%)
+				            return FromHsla(
+					            ParseHue(CssTrim(hslParts[0])),
+					            ParsePercentFloat(CssTrim(hslParts[1])),
+					            ParsePercentFloat(CssTrim(hslParts[2])),
+					            ParsePercent(CssTrim(hslParts[4])) // convert 0-100% to 0-255
+				            );
+			            }
+		            }
+
+		            // from https://github.com/dmester/jdenticon-net/blob/master/Core/Jdenticon/Rendering/Color.Conversion.cs
+		            /*
+		            MIT License
+
+					Copyright (c) 2018 Daniel Mester Pirttijärvi
+
+					Permission is hereby granted, free of charge, to any person obtaining a copy
+					of this software and associated documentation files (the "Software"), to deal
+					in the Software without restriction, including without limitation the rights
+					to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+					copies of the Software, and to permit persons to whom the Software is
+					furnished to do so, subject to the following conditions:
+
+					The above copyright notice and this permission notice shall be included in all
+					copies or substantial portions of the Software.
+
+					THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+					IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+					FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+					AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+					LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+					OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+					SOFTWARE.
+		             */
+		            static Color FromHsla(float hue, float saturation, float lightness, byte alpha)
+		            {
+			            var color = FromHsl(hue, saturation, lightness);
+			            return new Color(color.R, color.G, color.B, alpha);
+		            }
+
+		            static Color FromHsl(float hue, float saturation, float lightness)
+		            {
+			            // h in [0,360], s and l in [0,1]
+			            // Based on http://www.w3.org/TR/2011/REC-css3-color-20110607/#hsl-color
+			            if (saturation == 0)
+			            {
+				            var value = (int)(lightness * 255);
+				            return new Color(value, value, value);
+			            }
+			            else
+			            {
+				            var m2 = lightness <= 0.5f ? lightness * (saturation + 1) : lightness + saturation - lightness * saturation;
+				            var m1 = lightness * 2 - m2;
+
+				            return new Color(
+					            HueToRgb(m1, m2, hue * 6 + 2),
+					            HueToRgb(m1, m2, hue * 6),
+					            HueToRgb(m1, m2, hue * 6 - 2));
+			            }
+		            }
+
+		            static int HueToRgb(float m1, float m2, float h)
+		            {
+			            h = h < 0 ? h + 6 : h > 6 ? h - 6 : h;
+			            return (int)(255 * (
+				            h < 1 ? m1 + (m2 - m1) * h :
+				            h < 3 ? m2 :
+				            h < 4 ? m1 + (m2 - m1) * (4 - h) :
+				            m1));
+		            }
+
+		            // Vaguely inspired by https://github.com/dmester/jdenticon-net/blob/master/Core/Jdenticon/Rendering/Color.Parser.cs
+		            static float ParseHue(ReadOnlySpan<char> str)
+		            {
+			            if (str.EndsWith("deg", StringComparison.OrdinalIgnoreCase))
+			            {
+				            str = str[..^3].Trim();
+				            return float.Parse(str, CultureInfo.InvariantCulture);
+			            }
+
+			            if (str.EndsWith("rad", StringComparison.OrdinalIgnoreCase))
+			            {
+				            str = str[..^3].Trim();
+				            return (float)(float.Parse(str, CultureInfo.InvariantCulture) * (180.0 / Math.PI));
+			            }
+
+			            if (str.EndsWith("turn", StringComparison.OrdinalIgnoreCase))
+			            {
+				            str = str[..^4].Trim();
+				            return (float)(float.Parse(str, CultureInfo.InvariantCulture) * 360.0);
+			            }
+
+			            if (str.EndsWith("grad", StringComparison.OrdinalIgnoreCase))
+			            {
+				            str = str[..^4].Trim();
+				            return (float)(float.Parse(str, CultureInfo.InvariantCulture) * 0.9);
+			            }
+
+			            // assume degrees
+			            return float.Parse(str, CultureInfo.InvariantCulture);
 		            }
 	            }
 
@@ -186,576 +440,66 @@ namespace Microsoft.Xna.Framework.Design
 		            return Color.LightGray;
 	            }
 
-	            #region Named Colors
+	            if (NamedColors.TryGetAlternateLookup<ReadOnlySpan<char>>(out var lookup) &&
+	                lookup.TryGetValue(trimmed, out var argb))
+	            {
+		            return new Color(
+			            (byte)((argb >> 16) & 0xFF),
+			            (byte)((argb >> 8) & 0xFF),
+			            (byte)(argb & 0xFF),
+			            (byte)((argb >> 24) & 0xFF)
+		            );
+	            }
 
-				if (trimmed.Equals("Transparent", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Transparent;
-				}
-				if (trimmed.Equals("AliceBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.AliceBlue;
-				}
-				if (trimmed.Equals("AntiqueWhite", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.AntiqueWhite;
-				}
-				if (trimmed.Equals("Aqua", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Aqua;
-				}
-				if (trimmed.Equals("Aquamarine", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Aquamarine;
-				}
-				if (trimmed.Equals("Azure", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Azure;
-				}
-				if (trimmed.Equals("Beige", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Beige;
-				}
-				if (trimmed.Equals("Bisque", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Bisque;
-				}
-				if (trimmed.Equals("Black", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Black;
-				}
-				if (trimmed.Equals("BlanchedAlmond", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.BlanchedAlmond;
-				}
-				if (trimmed.Equals("Blue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Blue;
-				}
-				if (trimmed.Equals("BlueViolet", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.BlueViolet;
-				}
-				if (trimmed.Equals("Brown", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Brown;
-				}
-				if (trimmed.Equals("BurlyWood", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.BurlyWood;
-				}
-				if (trimmed.Equals("CadetBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.CadetBlue;
-				}
-				if (trimmed.Equals("Chartreuse", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Chartreuse;
-				}
-				if (trimmed.Equals("Chocolate", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Chocolate;
-				}
-				if (trimmed.Equals("Coral", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Coral;
-				}
-				if (trimmed.Equals("CornflowerBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.CornflowerBlue;
-				}
-				if (trimmed.Equals("Cornsilk", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Cornsilk;
-				}
-				if (trimmed.Equals("Crimson", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Crimson;
-				}
-				if (trimmed.Equals("Cyan", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Cyan;
-				}
-				if (trimmed.Equals("DarkBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkBlue;
-				}
-				if (trimmed.Equals("DarkCyan", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkCyan;
-				}
-				if (trimmed.Equals("DarkGoldenrod", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkGoldenrod;
-				}
-				if (trimmed.Equals("DarkGray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkGray;
-				}
-				if (trimmed.Equals("DarkGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkGreen;
-				}
-				if (trimmed.Equals("DarkKhaki", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkKhaki;
-				}
-				if (trimmed.Equals("DarkMagenta", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkMagenta;
-				}
-				if (trimmed.Equals("DarkOliveGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkOliveGreen;
-				}
-				if (trimmed.Equals("DarkOrange", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkOrange;
-				}
-				if (trimmed.Equals("DarkOrchid", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkOrchid;
-				}
-				if (trimmed.Equals("DarkRed", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkRed;
-				}
-				if (trimmed.Equals("DarkSalmon", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkSalmon;
-				}
-				if (trimmed.Equals("DarkSeaGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkSeaGreen;
-				}
-				if (trimmed.Equals("DarkSlateBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkSlateBlue;
-				}
-				if (trimmed.Equals("DarkSlateGray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkSlateGray;
-				}
-				if (trimmed.Equals("DarkTurquoise", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkTurquoise;
-				}
-				if (trimmed.Equals("DarkViolet", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DarkViolet;
-				}
-				if (trimmed.Equals("DeepPink", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DeepPink;
-				}
-				if (trimmed.Equals("DeepSkyBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DeepSkyBlue;
-				}
-				if (trimmed.Equals("DimGray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DimGray;
-				}
-				if (trimmed.Equals("DodgerBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.DodgerBlue;
-				}
-				if (trimmed.Equals("Firebrick", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Firebrick;
-				}
-				if (trimmed.Equals("FloralWhite", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.FloralWhite;
-				}
-				if (trimmed.Equals("ForestGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.ForestGreen;
-				}
-				if (trimmed.Equals("Fuchsia", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Fuchsia;
-				}
-				if (trimmed.Equals("Gainsboro", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Gainsboro;
-				}
-				if (trimmed.Equals("GhostWhite", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.GhostWhite;
-				}
-				if (trimmed.Equals("Gold", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Gold;
-				}
-				if (trimmed.Equals("Goldenrod", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Goldenrod;
-				}
-				if (trimmed.Equals("Gray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Gray;
-				}
-				if (trimmed.Equals("Green", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Green;
-				}
-				if (trimmed.Equals("GreenYellow", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.GreenYellow;
-				}
-				if (trimmed.Equals("Honeydew", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Honeydew;
-				}
-				if (trimmed.Equals("HotPink", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.HotPink;
-				}
-				if (trimmed.Equals("IndianRed", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.IndianRed;
-				}
-				if (trimmed.Equals("Indigo", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Indigo;
-				}
-				if (trimmed.Equals("Ivory", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Ivory;
-				}
-				if (trimmed.Equals("Khaki", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Khaki;
-				}
-				if (trimmed.Equals("Lavender", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Lavender;
-				}
-				if (trimmed.Equals("LavenderBlush", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LavenderBlush;
-				}
-				if (trimmed.Equals("LawnGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LawnGreen;
-				}
-				if (trimmed.Equals("LemonChiffon", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LemonChiffon;
-				}
-				if (trimmed.Equals("LightBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightBlue;
-				}
-				if (trimmed.Equals("LightCoral", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightCoral;
-				}
-				if (trimmed.Equals("LightCyan", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightCyan;
-				}
-				if (trimmed.Equals("LightGoldenrodYellow", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightGoldenrodYellow;
-				}
-				if (trimmed.Equals("LightGray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightGray;
-				}
-				if (trimmed.Equals("LightGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightGreen;
-				}
-				if (trimmed.Equals("LightPink", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightPink;
-				}
-				if (trimmed.Equals("LightSalmon", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightSalmon;
-				}
-				if (trimmed.Equals("LightSeaGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightSeaGreen;
-				}
-				if (trimmed.Equals("LightSkyBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightSkyBlue;
-				}
-				if (trimmed.Equals("LightSlateGray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightSlateGray;
-				}
-				if (trimmed.Equals("LightSteelBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightSteelBlue;
-				}
-				if (trimmed.Equals("LightYellow", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LightYellow;
-				}
-				if (trimmed.Equals("Lime", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Lime;
-				}
-				if (trimmed.Equals("LimeGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.LimeGreen;
-				}
-				if (trimmed.Equals("Linen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Linen;
-				}
-				if (trimmed.Equals("Magenta", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Magenta;
-				}
-				if (trimmed.Equals("Maroon", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Maroon;
-				}
-				if (trimmed.Equals("MediumAquamarine", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumAquamarine;
-				}
-				if (trimmed.Equals("MediumBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumBlue;
-				}
-				if (trimmed.Equals("MediumOrchid", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumOrchid;
-				}
-				if (trimmed.Equals("MediumPurple", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumPurple;
-				}
-				if (trimmed.Equals("MediumSeaGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumSeaGreen;
-				}
-				if (trimmed.Equals("MediumSlateBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumSlateBlue;
-				}
-				if (trimmed.Equals("MediumSpringGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumSpringGreen;
-				}
-				if (trimmed.Equals("MediumTurquoise", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumTurquoise;
-				}
-				if (trimmed.Equals("MediumVioletRed", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MediumVioletRed;
-				}
-				if (trimmed.Equals("MidnightBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MidnightBlue;
-				}
-				if (trimmed.Equals("MintCream", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MintCream;
-				}
-				if (trimmed.Equals("MistyRose", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.MistyRose;
-				}
-				if (trimmed.Equals("Moccasin", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Moccasin;
-				}
-				if (trimmed.Equals("NavajoWhite", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.NavajoWhite;
-				}
-				if (trimmed.Equals("Navy", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Navy;
-				}
-				if (trimmed.Equals("OldLace", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.OldLace;
-				}
-				if (trimmed.Equals("Olive", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Olive;
-				}
-				if (trimmed.Equals("OliveDrab", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.OliveDrab;
-				}
-				if (trimmed.Equals("Orange", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Orange;
-				}
-				if (trimmed.Equals("OrangeRed", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.OrangeRed;
-				}
-				if (trimmed.Equals("Orchid", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Orchid;
-				}
-				if (trimmed.Equals("PaleGoldenrod", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PaleGoldenrod;
-				}
-				if (trimmed.Equals("PaleGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PaleGreen;
-				}
-				if (trimmed.Equals("PaleTurquoise", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PaleTurquoise;
-				}
-				if (trimmed.Equals("PaleVioletRed", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PaleVioletRed;
-				}
-				if (trimmed.Equals("PapayaWhip", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PapayaWhip;
-				}
-				if (trimmed.Equals("PeachPuff", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PeachPuff;
-				}
-				if (trimmed.Equals("Peru", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Peru;
-				}
-				if (trimmed.Equals("Pink", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Pink;
-				}
-				if (trimmed.Equals("Plum", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Plum;
-				}
-				if (trimmed.Equals("PowderBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.PowderBlue;
-				}
-				if (trimmed.Equals("Purple", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Purple;
-				}
-				if (trimmed.Equals("Red", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Red;
-				}
-				if (trimmed.Equals("RosyBrown", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.RosyBrown;
-				}
-				if (trimmed.Equals("RoyalBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.RoyalBlue;
-				}
-				if (trimmed.Equals("SaddleBrown", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SaddleBrown;
-				}
-				if (trimmed.Equals("Salmon", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Salmon;
-				}
-				if (trimmed.Equals("SandyBrown", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SandyBrown;
-				}
-				if (trimmed.Equals("SeaGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SeaGreen;
-				}
-				if (trimmed.Equals("SeaShell", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SeaShell;
-				}
-				if (trimmed.Equals("Sienna", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Sienna;
-				}
-				if (trimmed.Equals("Silver", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Silver;
-				}
-				if (trimmed.Equals("SkyBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SkyBlue;
-				}
-				if (trimmed.Equals("SlateBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SlateBlue;
-				}
-				if (trimmed.Equals("SlateGray", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SlateGray;
-				}
-				if (trimmed.Equals("Snow", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Snow;
-				}
-				if (trimmed.Equals("SpringGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SpringGreen;
-				}
-				if (trimmed.Equals("SteelBlue", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.SteelBlue;
-				}
-				if (trimmed.Equals("Tan", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Tan;
-				}
-				if (trimmed.Equals("Teal", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Teal;
-				}
-				if (trimmed.Equals("Thistle", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Thistle;
-				}
-				if (trimmed.Equals("Tomato", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Tomato;
-				}
-				if (trimmed.Equals("Turquoise", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Turquoise;
-				}
-				if (trimmed.Equals("Violet", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Violet;
-				}
-				if (trimmed.Equals("Wheat", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Wheat;
-				}
-				if (trimmed.Equals("White", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.White;
-				}
-				if (trimmed.Equals("WhiteSmoke", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.WhiteSmoke;
-				}
-				if (trimmed.Equals("Yellow", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.Yellow;
-				}
-				if (trimmed.Equals("YellowGreen", StringComparison.OrdinalIgnoreCase))
-				{
-					return Color.YellowGreen;
-				}
+	            throw new FormatException($"Invalid color format: {str}. Expected 'R,G,B' or 'R,G,B,A', or rgb(r,g,b), or rgba(r,g,b,a), or hsl(h,s,l), or hsla(h,s,l,a), or a valid hex color, or a named CSS color.");
 
-				#endregion
+	            static byte ParsePercent(ReadOnlySpan<char> str)
+	            {
+		            // 0-100%
+		            if (str.EndsWith("%"))
+		            {
+			            str = str[..^1].Trim();
+			            return (byte)(float.Parse(str, CultureInfo.InvariantCulture) * 2.55f);
+		            }
 
-	            throw new FormatException($"Invalid color format: {str}. Expected 'R,G,B' or 'R,G,B,A', or a valid hex color, or a named XNA color.");
+		            // 0-1
+		            return (byte)(float.Parse(str, CultureInfo.InvariantCulture) * 255f);
+	            }
+	            static float ParsePercentFloat(ReadOnlySpan<char> str)
+	            {
+		            // 0-100%
+		            if (str.EndsWith("%"))
+		            {
+			            str = str[..^1].Trim();
+			            return float.Parse(str, CultureInfo.InvariantCulture) / 100f;
+		            }
+
+		            // 0-1
+		            return float.Parse(str, CultureInfo.InvariantCulture);
+	            }
+
+	            static ReadOnlySpan<char> CssTrim(ReadOnlySpan<char> span)
+	            {
+		            span = span.Trim();
+		            if (span.EndsWith(","))
+		            {
+			            span = span[..^1].Trim();
+		            }
+		            else if (span.StartsWith(","))
+		            {
+			            span = span[1..].Trim();
+		            }
+		            if (span.EndsWith(","))
+		            {
+			            span = span[..^1].Trim();
+		            }
+		            else if (span.StartsWith(","))
+		            {
+			            span = span[1..].Trim();
+		            }
+
+		            return span;
+	            }
 	        }
 	        return base.ConvertFrom(context, culture, value);
 	    }
