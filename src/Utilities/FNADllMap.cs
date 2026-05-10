@@ -210,7 +210,7 @@ namespace Microsoft.Xna.Framework
 			}
 
 			// Set the resolver callback
-			NativeLibrary.SetDllImportResolver(assembly, MapAndLoad);
+			// NativeLibrary.SetDllImportResolver(assembly, MapAndLoad);
 		}
 
 		#endregion
