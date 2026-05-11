@@ -601,6 +601,22 @@ namespace Microsoft.Xna.Framework.Graphics
 			}
 		}
 
+		public void SetValueEXT(ReadOnlySpan<bool> value)
+		{
+			unsafe
+			{
+				int* dstPtr = (int*) values;
+				for (int i = 0; i < value.Length; dstPtr += 4)
+				{
+					for (int j = 0; j < ColumnCount; j += 1, i += 1)
+					{
+						// Ugh, this branch, stupid C#.
+						*(dstPtr + j) = value[i] ? 1 : 0;
+					}
+				}
+			}
+		}
+
 		public void SetValue(int value)
 		{
 			if (ParameterType == EffectParameterType.Single)
@@ -626,6 +642,21 @@ namespace Microsoft.Xna.Framework.Graphics
 			for (int i = 0, j = 0; i < value.Length; i += ColumnCount, j += 16)
 			{
 				Marshal.Copy(value, i, values + j, ColumnCount);
+			}
+		}
+
+		public void SetValueEXT(ReadOnlySpan<int> value)
+		{
+			unsafe
+			{
+				int* dstPtr = (int*) values;
+				for (int i = 0; i < value.Length; dstPtr += 4)
+				{
+					for (int j = 0; j < ColumnCount; j += 1, i += 1)
+					{
+						*(dstPtr + j) = value[i];
+					}
+				}
 			}
 		}
 
@@ -718,6 +749,121 @@ namespace Microsoft.Xna.Framework.Graphics
 		}
 
 		public void SetValueTranspose(Matrix[] value)
+		{
+			// FIXME: All Matrix sizes... this will get ugly. -flibit
+			unsafe
+			{
+				float* dstPtr = (float*) values;
+				if (ColumnCount == 4 && RowCount == 4)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 16)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M12;
+						dstPtr[2] = value[i].M13;
+						dstPtr[3] = value[i].M14;
+						dstPtr[4] = value[i].M21;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M23;
+						dstPtr[7] = value[i].M24;
+						dstPtr[8] = value[i].M31;
+						dstPtr[9] = value[i].M32;
+						dstPtr[10] = value[i].M33;
+						dstPtr[11] = value[i].M34;
+						dstPtr[12] = value[i].M41;
+						dstPtr[13] = value[i].M42;
+						dstPtr[14] = value[i].M43;
+						dstPtr[15] = value[i].M44;
+					}
+				}
+				else if (ColumnCount == 3 && RowCount == 3)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 12)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M12;
+						dstPtr[2] = value[i].M13;
+						dstPtr[4] = value[i].M21;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M23;
+						dstPtr[8] = value[i].M31;
+						dstPtr[9] = value[i].M32;
+						dstPtr[10] = value[i].M33;
+					}
+				}
+				else if (ColumnCount == 4 && RowCount == 3)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 16)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M12;
+						dstPtr[2] = value[i].M13;
+						dstPtr[4] = value[i].M21;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M23;
+						dstPtr[8] = value[i].M31;
+						dstPtr[9] = value[i].M32;
+						dstPtr[10] = value[i].M33;
+						dstPtr[12] = value[i].M41;
+						dstPtr[13] = value[i].M42;
+						dstPtr[14] = value[i].M43;
+					}
+				}
+				else if (ColumnCount == 3 && RowCount == 4)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 12)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M12;
+						dstPtr[2] = value[i].M13;
+						dstPtr[3] = value[i].M14;
+						dstPtr[4] = value[i].M21;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M23;
+						dstPtr[7] = value[i].M24;
+						dstPtr[8] = value[i].M31;
+						dstPtr[9] = value[i].M32;
+						dstPtr[10] = value[i].M33;
+						dstPtr[11] = value[i].M34;
+					}
+				}
+				else if (ColumnCount == 2 && RowCount == 2)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 8)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M12;
+						dstPtr[4] = value[i].M21;
+						dstPtr[5] = value[i].M22;
+					}
+				}
+				else
+				{
+					throw new NotImplementedException(
+						"Matrix Size: " +
+						RowCount.ToString() + " " +
+						ColumnCount.ToString()
+					);
+				}
+			}
+		}
+
+		public void SetValueTransposeEXT(ReadOnlySpan<Matrix> value)
 		{
 			// FIXME: All Matrix sizes... this will get ugly. -flibit
 			unsafe
@@ -1035,6 +1181,121 @@ namespace Microsoft.Xna.Framework.Graphics
 			}
 		}
 
+		public void SetValueEXT(ReadOnlySpan<Matrix> value)
+		{
+			// FIXME: All Matrix sizes... this will get ugly. -flibit
+			unsafe
+			{
+				float* dstPtr = (float*) values;
+				if (ColumnCount == 4 && RowCount == 4)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 16)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M21;
+						dstPtr[2] = value[i].M31;
+						dstPtr[3] = value[i].M41;
+						dstPtr[4] = value[i].M12;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M32;
+						dstPtr[7] = value[i].M42;
+						dstPtr[8] = value[i].M13;
+						dstPtr[9] = value[i].M23;
+						dstPtr[10] = value[i].M33;
+						dstPtr[11] = value[i].M43;
+						dstPtr[12] = value[i].M14;
+						dstPtr[13] = value[i].M24;
+						dstPtr[14] = value[i].M34;
+						dstPtr[15] = value[i].M44;
+					}
+				}
+				else if (ColumnCount == 3 && RowCount == 3)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 12)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M21;
+						dstPtr[2] = value[i].M31;
+						dstPtr[4] = value[i].M12;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M32;
+						dstPtr[8] = value[i].M13;
+						dstPtr[9] = value[i].M23;
+						dstPtr[10] = value[i].M33;
+					}
+				}
+				else if (ColumnCount == 4 && RowCount == 3)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 12)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M21;
+						dstPtr[2] = value[i].M31;
+						dstPtr[3] = value[i].M41;
+						dstPtr[4] = value[i].M12;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M32;
+						dstPtr[7] = value[i].M42;
+						dstPtr[8] = value[i].M13;
+						dstPtr[9] = value[i].M23;
+						dstPtr[10] = value[i].M33;
+						dstPtr[11] = value[i].M43;
+					}
+				}
+				else if (ColumnCount == 3 && RowCount == 4)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 16)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M21;
+						dstPtr[2] = value[i].M31;
+						dstPtr[4] = value[i].M12;
+						dstPtr[5] = value[i].M22;
+						dstPtr[6] = value[i].M32;
+						dstPtr[8] = value[i].M13;
+						dstPtr[9] = value[i].M23;
+						dstPtr[10] = value[i].M33;
+						dstPtr[12] = value[i].M14;
+						dstPtr[13] = value[i].M24;
+						dstPtr[14] = value[i].M34;
+					}
+				}
+				else if (ColumnCount == 2 && RowCount == 2)
+				{
+					for (int i = 0; i < value.Length; i += 1, dstPtr += 8)
+					{
+#if DEBUG
+						value[i].CheckForNaNs();
+#endif
+						dstPtr[0] = value[i].M11;
+						dstPtr[1] = value[i].M21;
+						dstPtr[4] = value[i].M12;
+						dstPtr[5] = value[i].M22;
+					}
+				}
+				else
+				{
+					throw new NotImplementedException(
+						"Matrix Size: " +
+						RowCount.ToString() + " " +
+						ColumnCount.ToString()
+					);
+				}
+			}
+		}
+
 		public void SetValue(Quaternion value)
 		{
 #if DEBUG
@@ -1097,6 +1358,30 @@ namespace Microsoft.Xna.Framework.Graphics
 			for (int i = 0, j = 0; i < value.Length; i += ColumnCount, j += 16)
 			{
 				Marshal.Copy(value, i, values + j, ColumnCount);
+			}
+		}
+
+		public void SetValueEXT(ReadOnlySpan<float> value)
+		{
+#if DEBUG
+			foreach (float f in value)
+			{
+				if (float.IsNaN(f))
+				{
+					throw new InvalidOperationException("Effect parameter contains NaN!");
+				}
+			}
+#endif
+			unsafe
+			{
+				float* dstPtr = (float*) values;
+				for (int i = 0; i < value.Length; dstPtr += 4)
+				{
+					for (int j = 0; j < ColumnCount; j += 1, i += 1)
+					{
+						*(dstPtr + j) = value[i];
+					}
+				}
 			}
 		}
 
