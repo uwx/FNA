@@ -16,7 +16,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
-
+using System.Text.Json.Serialization;
 using Microsoft.Xna.Framework.Design;
 #endregion
 
@@ -193,16 +193,19 @@ namespace Microsoft.Xna.Framework
 		/// <summary>
 		/// The x coordinate of this <see cref="Vector3"/>.
 		/// </summary>
+		[JsonPropertyName("x")]
 		public float X;
 
 		/// <summary>
 		/// The y coordinate of this <see cref="Vector3"/>.
 		/// </summary>
+		[JsonPropertyName("y")]
 		public float Y;
 
 		/// <summary>
 		/// The z coordinate of this <see cref="Vector3"/>.
 		/// </summary>
+		[JsonPropertyName("z")]
 		public float Z;
 
 		#endregion
@@ -215,6 +218,7 @@ namespace Microsoft.Xna.Framework
 		/// <param name="x">The x coordinate in 3d-space.</param>
 		/// <param name="y">The y coordinate in 3d-space.</param>
 		/// <param name="z">The z coordinate in 3d-space.</param>
+		[JsonConstructor]
 		public Vector3(float x, float y, float z)
 		{
 			this.X = x;
