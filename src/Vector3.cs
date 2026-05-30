@@ -28,7 +28,7 @@ namespace Microsoft.Xna.Framework
 	[Serializable]
 	[TypeConverter(typeof(Vector3Converter))]
 	[DebuggerDisplay("{DebugDisplayString,nq}")]
-	public struct Vector3 : IEquatable<Vector3>
+	public partial struct Vector3 : IEquatable<Vector3>
 	{
 		#region Public Static Properties
 
