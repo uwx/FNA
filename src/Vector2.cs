@@ -16,7 +16,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
-
+using System.Text.Json.Serialization;
 using Microsoft.Xna.Framework.Design;
 #endregion
 
@@ -98,11 +98,13 @@ namespace Microsoft.Xna.Framework
 		/// <summary>
 		/// The x coordinate of this <see cref="Vector2"/>.
 		/// </summary>
+		[JsonPropertyName("x")]
 		public float X;
 
 		/// <summary>
 		/// The y coordinate of this <see cref="Vector2"/>.
 		/// </summary>
+		[JsonPropertyName("y")]
 		public float Y;
 
 		#endregion
@@ -124,6 +126,7 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="x">The x coordinate in 2d-space.</param>
 		/// <param name="y">The y coordinate in 2d-space.</param>
+		[JsonConstructor]
 		public Vector2(float x, float y)
 		{
 			this.X = x;
