@@ -193,19 +193,19 @@ namespace Microsoft.Xna.Framework
 		/// <summary>
 		/// The x coordinate of this <see cref="Vector3"/>.
 		/// </summary>
-		[JsonPropertyName("x")]
+		[JsonPropertyName("x"), JsonInclude]
 		public float X;
 
 		/// <summary>
 		/// The y coordinate of this <see cref="Vector3"/>.
 		/// </summary>
-		[JsonPropertyName("y")]
+		[JsonPropertyName("y"), JsonInclude]
 		public float Y;
 
 		/// <summary>
 		/// The z coordinate of this <see cref="Vector3"/>.
 		/// </summary>
-		[JsonPropertyName("z")]
+		[JsonPropertyName("z"), JsonInclude]
 		public float Z;
 
 		#endregion
