@@ -507,7 +507,6 @@ namespace Microsoft.Xna.Framework
 				}
 				if (resize)
 				{
-					SDL.SDL_RestoreWindow(sdlWindow);
 					SDL.SDL_SetWindowSize(sdlWindow, clientWidth, clientHeight);
 					center = true;
 				}
@@ -1068,7 +1067,7 @@ namespace Microsoft.Xna.Framework
 					}
 
 					// Window Move
-					else if (evt.type == (uint) SDL.SDL_EventType.SDL_EVENT_WINDOW_MOVED)
+					else if (evt.type == (uint) SDL.SDL_EventType.SDL_EVENT_WINDOW_DISPLAY_CHANGED)
 					{
 						/* Apparently if you move the window to a new
 						 * display, a GraphicsDevice Reset occurs.
