@@ -122,7 +122,7 @@ namespace Microsoft.Xna.Framework
 			/* Using formula from http://www.mvps.org/directx/articles/catmull/
 			 * Internally using doubles not to lose precision.
 			 */
-			double amountSquared = amount * amount;
+			double amountSquared = (double)amount * amount;
 			double amountCubed = amountSquared * amount;
 			return (float) (
 				0.5 *
