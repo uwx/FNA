@@ -8,7 +8,7 @@
 		<RootNamespace>Microsoft.Xna.Framework</RootNamespace>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<LangVersion>9</LangVersion>
+		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 	<PropertyGroup>
 		<FNASettingsPropsFilePath>$(SolutionDir)FNA.Settings.props</FNASettingsPropsFilePath>
@@ -19,6 +19,7 @@
 		<Message Importance="High" Text="Loaded property overrides from '$(FNASettingsPropsFilePath)'" Condition="Exists('$(FNASettingsPropsFilePath)')" />
 	</Target>
 	<ItemGroup>
+		<Compile Include="GlobalUsings.cs" />
 		<Compile Include="src\Audio\AudioCategory.cs" />
 		<Compile Include="src\Audio\AudioChannels.cs" />
 		<Compile Include="src\Audio\AudioEmitter.cs" />
