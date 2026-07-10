@@ -103,7 +103,7 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
 		/// <param name="result">Transformed <see cref="BoundingSphere"/> as an output parameter.</param>
-		public void Transform(ref Matrix matrix, out BoundingSphere result)
+		public void Transform(in Matrix matrix, out BoundingSphere result)
 		{
 			result.Center = Vector3.Transform(this.Center, matrix);
 			result.Radius = this.Radius *
@@ -123,7 +123,7 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="box">The box for testing.</param>
 		/// <param name="result">The containment type as an output parameter.</param>
-		public void Contains(ref BoundingBox box, out ContainmentType result)
+		public void Contains(in BoundingBox box, out ContainmentType result)
 		{
 			result = this.Contains(box);
 		}
@@ -133,7 +133,7 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="sphere">The other sphere for testing.</param>
 		/// <param name="result">The containment type as an output parameter.</param>
-		public void Contains(ref BoundingSphere sphere, out ContainmentType result)
+		public void Contains(in BoundingSphere sphere, out ContainmentType result)
 		{
 			result = Contains(sphere);
 		}
@@ -143,7 +143,7 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="point">The vector in 3D-space for testing.</param>
 		/// <param name="result">The containment type as an output parameter.</param>
-		public void Contains(ref Vector3 point, out ContainmentType result)
+		public void Contains(in Vector3 point, out ContainmentType result)
 		{
 			result = Contains(point);
 		}
@@ -255,7 +255,7 @@ namespace Microsoft.Xna.Framework
 		public ContainmentType Contains(BoundingSphere sphere)
 		{
 			float sqDistance;
-			Vector3.DistanceSquared(ref sphere.Center, ref Center, out sqDistance);
+			Vector3.DistanceSquared(in sphere.Center, in Center, out sqDistance);
 
 			if (sqDistance > (sphere.Radius + Radius) * (sphere.Radius + Radius))
 			{
@@ -277,7 +277,7 @@ namespace Microsoft.Xna.Framework
 		{
 			float sqRadius = Radius * Radius;
 			float sqDistance;
-			Vector3.DistanceSquared(ref point, ref Center, out sqDistance);
+			Vector3.DistanceSquared(in point, in Center, out sqDistance);
 
 			if (sqDistance > sqRadius)
 			{
@@ -313,7 +313,7 @@ namespace Microsoft.Xna.Framework
 		public static BoundingSphere CreateFromBoundingBox(BoundingBox box)
 		{
 			BoundingSphere result;
-			CreateFromBoundingBox(ref box, out result);
+			CreateFromBoundingBox(in box, out result);
 			return result;
 		}
 
@@ -322,7 +322,7 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="box">The box to create the sphere from.</param>
 		/// <param name="result">The new <see cref="BoundingSphere"/> as an output parameter.</param>
-		public static void CreateFromBoundingBox(ref BoundingBox box, out BoundingSphere result)
+		public static void CreateFromBoundingBox(in BoundingBox box, out BoundingSphere result)
 		{
 			// Find the center of the box.
 			Vector3 center = new Vector3(
@@ -424,7 +424,7 @@ namespace Microsoft.Xna.Framework
 				max = maxz;
 				min = minz;
 			}
-			
+
 			Vector3 center = (min + max) * 0.5f;
 			float radius = Vector3.Distance(max, center);
 
@@ -460,7 +460,7 @@ namespace Microsoft.Xna.Framework
 		public static BoundingSphere CreateMerged(BoundingSphere original, BoundingSphere additional)
 		{
 			BoundingSphere result;
-			CreateMerged(ref original, ref additional, out result);
+			CreateMerged(in original, in additional, out result);
 			return result;
 		}
 
@@ -471,8 +471,8 @@ namespace Microsoft.Xna.Framework
 		/// <param name="additional">Second sphere.</param>
 		/// <param name="result">The new <see cref="BoundingSphere"/> as an output parameter.</param>
 		public static void CreateMerged(
-			ref BoundingSphere original,
-			ref BoundingSphere additional,
+			in BoundingSphere original,
+			in BoundingSphere additional,
 			out BoundingSphere result
 		) {
 			Vector3 ocenterToaCenter = Vector3.Subtract(additional.Center, original.Center);
@@ -527,9 +527,9 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="box">The box for testing.</param>
 		/// <param name="result"><c>true</c> if <see cref="BoundingBox"/> intersects with this sphere; <c>false</c> otherwise. As an output parameter.</param>
-		public void Intersects(ref BoundingBox box, out bool result)
+		public void Intersects(in BoundingBox box, out bool result)
 		{
-			box.Intersects(ref this, out result);
+			box.Intersects(in this, out result);
 		}
 
 		public bool Intersects(BoundingFrustum frustum)
@@ -545,7 +545,7 @@ namespace Microsoft.Xna.Framework
 		public bool Intersects(BoundingSphere sphere)
 		{
 			bool result;
-			Intersects(ref sphere, out result);
+			Intersects(in sphere, out result);
 			return result;
 		}
 
@@ -554,10 +554,10 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="sphere">The other sphere for testing.</param>
 		/// <param name="result"><c>true</c> if other <see cref="BoundingSphere"/> intersects with this sphere; <c>false</c> otherwise. As an output parameter.</param>
-		public void Intersects(ref BoundingSphere sphere, out bool result)
+		public void Intersects(in BoundingSphere sphere, out bool result)
 		{
 			float sqDistance;
-			Vector3.DistanceSquared(ref sphere.Center, ref Center, out sqDistance);
+			Vector3.DistanceSquared(in sphere.Center, in Center, out sqDistance);
 			result = !(sqDistance > (sphere.Radius + Radius) * (sphere.Radius + Radius));
 		}
 
@@ -576,9 +576,9 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="ray">The ray for testing.</param>
 		/// <param name="result">Distance of ray intersection or <c>null</c> if there is no intersection as an output parameter.</param>
-		public void Intersects(ref Ray ray, out float? result)
+		public void Intersects(in Ray ray, out float? result)
 		{
-			ray.Intersects(ref this, out result);
+			ray.Intersects(in this, out result);
 		}
 
 		/// <summary>
@@ -590,7 +590,7 @@ namespace Microsoft.Xna.Framework
 		{
 			PlaneIntersectionType result = default(PlaneIntersectionType);
 			// TODO: We might want to inline this for performance reasons.
-			this.Intersects(ref plane, out result);
+			this.Intersects(in plane, out result);
 			return result;
 		}
 
@@ -599,11 +599,11 @@ namespace Microsoft.Xna.Framework
 		/// </summary>
 		/// <param name="plane">The plane for testing.</param>
 		/// <param name="result">Type of intersection as an output parameter.</param>
-		public void Intersects(ref Plane plane, out PlaneIntersectionType result)
+		public void Intersects(in Plane plane, out PlaneIntersectionType result)
 		{
 			float distance = default(float);
 			// TODO: We might want to inline this for performance reasons.
-			Vector3.Dot(ref plane.Normal, ref this.Center, out distance);
+			Vector3.Dot(in plane.Normal, in this.Center, out distance);
 			distance += plane.D;
 			if (distance > this.Radius)
 			{

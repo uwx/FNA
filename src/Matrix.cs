@@ -335,7 +335,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="matrix1">The first matrix to add.</param>
 			/// <param name="matrix2">The second matrix to add.</param>
 			/// <param name="result">The result of the matrix addition as an output parameter.</param>
-			public static void Add(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+			public static void Add(in Matrix matrix1, in Matrix matrix2, out Matrix result)
 			{
 				result.M11 = matrix1.M11 + matrix2.M11;
 				result.M12 = matrix1.M12 + matrix2.M12;
@@ -374,9 +374,9 @@ namespace Microsoft.Xna.Framework
 
 				// Delegate to the other overload of the function to do the work
 				CreateBillboard(
-					ref objectPosition,
-					ref cameraPosition,
-					ref cameraUpVector,
+					in objectPosition,
+					in cameraPosition,
+					in cameraUpVector,
 					cameraForwardVector,
 					out result
 				);
@@ -393,9 +393,9 @@ namespace Microsoft.Xna.Framework
 			/// <param name="cameraForwardVector">Optional camera forward vector.</param>
 			/// <param name="result">The <see cref="Matrix"/> for spherical billboarding as an output parameter.</param>
 			public static void CreateBillboard(
-				ref Vector3 objectPosition,
-				ref Vector3 cameraPosition,
-				ref Vector3 cameraUpVector,
+				in Vector3 objectPosition,
+				in Vector3 cameraPosition,
+				in Vector3 cameraUpVector,
 				Vector3? cameraForwardVector,
 				out Matrix result
 			)
@@ -411,7 +411,7 @@ namespace Microsoft.Xna.Framework
 				else
 				{
 					Vector3.Multiply(
-						ref cameraDir,
+						in cameraDir,
 						(float)(1f / ((float)Math.Sqrt((double)num))),
 						out cameraDir
 					);
@@ -456,9 +456,9 @@ namespace Microsoft.Xna.Framework
 			{
 				Matrix result;
 				CreateConstrainedBillboard(
-					ref objectPosition,
-					ref cameraPosition,
-					ref rotateAxis,
+					in objectPosition,
+					in cameraPosition,
+					in rotateAxis,
 					cameraForwardVector,
 					objectForwardVector,
 					out result
@@ -476,9 +476,9 @@ namespace Microsoft.Xna.Framework
 			/// <param name="objectForwardVector">Optional object forward vector.</param>
 			/// <param name="result">The <see cref="Matrix"/> for cylindrical billboarding as an output parameter.</param>
 			public static void CreateConstrainedBillboard(
-				ref Vector3 objectPosition,
-				ref Vector3 cameraPosition,
-				ref Vector3 rotateAxis,
+				in Vector3 objectPosition,
+				in Vector3 cameraPosition,
+				in Vector3 rotateAxis,
 				Vector3? cameraForwardVector,
 				Vector3? objectForwardVector,
 				out Matrix result
@@ -499,20 +499,20 @@ namespace Microsoft.Xna.Framework
 				else
 				{
 					Vector3.Multiply(
-						ref vector2,
+						in vector2,
 						(float)(1f / ((float)Math.Sqrt((double)num2))),
 						out vector2
 					);
 				}
 
 				Vector3 vector4 = rotateAxis;
-				Vector3.Dot(ref rotateAxis, ref vector2, out num);
+				Vector3.Dot(in rotateAxis, in vector2, out num);
 				if (Math.Abs(num) > 0.9982547f)
 				{
 					if (objectForwardVector.HasValue)
 					{
 						vector = objectForwardVector.Value;
-						Vector3.Dot(ref rotateAxis, ref vector, out num);
+						Vector3.Dot(in rotateAxis, in vector, out num);
 						if (Math.Abs(num) > 0.9982547f)
 						{
 							num = (
@@ -531,16 +531,16 @@ namespace Microsoft.Xna.Framework
 						vector = (Math.Abs(num) > 0.9982547f) ? Vector3.Right : Vector3.Forward;
 					}
 
-					Vector3.Cross(ref rotateAxis, ref vector, out vector3);
+					Vector3.Cross(in rotateAxis, in vector, out vector3);
 					vector3.Normalize();
-					Vector3.Cross(ref vector3, ref rotateAxis, out vector);
+					Vector3.Cross(in vector3, in rotateAxis, out vector);
 					vector.Normalize();
 				}
 				else
 				{
-					Vector3.Cross(ref rotateAxis, ref vector2, out vector3);
+					Vector3.Cross(in rotateAxis, in vector2, out vector3);
 					vector3.Normalize();
-					Vector3.Cross(ref vector3, ref vector4, out vector);
+					Vector3.Cross(in vector3, in vector4, out vector);
 					vector.Normalize();
 				}
 
@@ -571,7 +571,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateFromAxisAngle(Vector3 axis, float angle)
 			{
 				Matrix result;
-				CreateFromAxisAngle(ref axis, angle, out result);
+				CreateFromAxisAngle(in axis, angle, out result);
 				return result;
 			}
 
@@ -582,7 +582,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="angle">The angle of rotation in radians.</param>
 			/// <param name="result">The rotation <see cref="Matrix"/> as an output parameter.</param>
 			public static void CreateFromAxisAngle(
-				ref Vector3 axis,
+				in Vector3 axis,
 				float angle,
 				out Matrix result
 			)
@@ -624,7 +624,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateFromQuaternion(Quaternion quaternion)
 			{
 				Matrix result;
-				CreateFromQuaternion(ref quaternion, out result);
+				CreateFromQuaternion(in quaternion, out result);
 				return result;
 			}
 
@@ -633,7 +633,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="quaternion"><see cref="Quaternion"/> of rotation moment.</param>
 			/// <param name="result">The rotation <see cref="Matrix"/> as an output parameter.</param>
-			public static void CreateFromQuaternion(ref Quaternion quaternion, out Matrix result)
+			public static void CreateFromQuaternion(in Quaternion quaternion, out Matrix result)
 			{
 				float num9 = quaternion.X * quaternion.X;
 				float num8 = quaternion.Y * quaternion.Y;
@@ -696,7 +696,7 @@ namespace Microsoft.Xna.Framework
 			{
 				Quaternion quaternion;
 				Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll, out quaternion);
-				CreateFromQuaternion(ref quaternion, out result);
+				CreateFromQuaternion(in quaternion, out result);
 			}
 
 			/// <summary>
@@ -713,7 +713,7 @@ namespace Microsoft.Xna.Framework
 			)
 			{
 				Matrix matrix;
-				CreateLookAt(ref cameraPosition, ref cameraTarget, ref cameraUpVector, out matrix);
+				CreateLookAt(in cameraPosition, in cameraTarget, in cameraUpVector, out matrix);
 				return matrix;
 			}
 
@@ -725,9 +725,9 @@ namespace Microsoft.Xna.Framework
 			/// <param name="cameraUpVector">The direction of the upper edge of the camera.</param>
 			/// <param name="result">The viewing <see cref="Matrix"/> as an output parameter.</param>
 			public static void CreateLookAt(
-				ref Vector3 cameraPosition,
-				ref Vector3 cameraTarget,
-				ref Vector3 cameraUpVector,
+				in Vector3 cameraPosition,
+				in Vector3 cameraTarget,
+				in Vector3 cameraUpVector,
 				out Matrix result
 			)
 			{
@@ -1269,7 +1269,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateScale(Vector3 scales)
 			{
 				Matrix result;
-				CreateScale(ref scales, out result);
+				CreateScale(in scales, out result);
 				return result;
 			}
 
@@ -1278,7 +1278,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="scales"><see cref="Vector3"/> representing x,y and z scale values.</param>
 			/// <param name="result">The scaling <see cref="Matrix"/> as an output parameter.</param>
-			public static void CreateScale(ref Vector3 scales, out Matrix result)
+			public static void CreateScale(in Vector3 scales, out Matrix result)
 			{
 				result.M11 = scales.X;
 				result.M12 = 0;
@@ -1307,7 +1307,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateShadow(Vector3 lightDirection, Plane plane)
 			{
 				Matrix result;
-				CreateShadow(ref lightDirection, ref plane, out result);
+				CreateShadow(in lightDirection, in plane, out result);
 				return result;
 			}
 
@@ -1318,8 +1318,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="plane">The plane onto which the new matrix should flatten geometry so as to cast a shadow.</param>
 			/// <param name="result">A <see cref="Matrix"/> that can be used to flatten geometry onto the specified plane from the specified direction as an output parameter.</param>
 			public static void CreateShadow(
-				ref Vector3 lightDirection,
-				ref Plane plane,
+				in Vector3 lightDirection,
+				in Plane plane,
 				out Matrix result)
 			{
 				float dot = (
@@ -1373,7 +1373,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="position">X,Y and Z coordinates of translation.</param>
 			/// <param name="result">The translation <see cref="Matrix"/> as an output parameter.</param>
-			public static void CreateTranslation(ref Vector3 position, out Matrix result)
+			public static void CreateTranslation(in Vector3 position, out Matrix result)
 			{
 				result.M11 = 1;
 				result.M12 = 0;
@@ -1401,7 +1401,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateTranslation(Vector3 position)
 			{
 				Matrix result;
-				CreateTranslation(ref position, out result);
+				CreateTranslation(in position, out result);
 				return result;
 			}
 
@@ -1445,7 +1445,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateReflection(Plane value)
 			{
 				Matrix result;
-				CreateReflection(ref value, out result);
+				CreateReflection(in value, out result);
 				return result;
 			}
 
@@ -1454,10 +1454,10 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="value">The plane that used for reflection calculation.</param>
 			/// <param name="result">The reflection <see cref="Matrix"/> as an output parameter.</param>
-			public static void CreateReflection(ref Plane value, out Matrix result)
+			public static void CreateReflection(in Plane value, out Matrix result)
 			{
 				Plane plane;
-				Plane.Normalize(ref value, out plane);
+				Plane.Normalize(in value, out plane);
 				float x = plane.Normal.X;
 				float y = plane.Normal.Y;
 				float z = plane.Normal.Z;
@@ -1492,7 +1492,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix CreateWorld(Vector3 position, Vector3 forward, Vector3 up)
 			{
 				Matrix ret;
-				CreateWorld(ref position, ref forward, ref up, out ret);
+				CreateWorld(in position, in forward, in up, out ret);
 				return ret;
 			}
 
@@ -1504,16 +1504,16 @@ namespace Microsoft.Xna.Framework
 			/// <param name="up">The upward direction vector. Usually <see cref="Vector3.Up"/>.</param>
 			/// <param name="result">The world <see cref="Matrix"/> as an output parameter.</param>
 			public static void CreateWorld(
-				ref Vector3 position,
-				ref Vector3 forward,
-				ref Vector3 up,
+				in Vector3 position,
+				in Vector3 forward,
+				in Vector3 up,
 				out Matrix result
 			)
 			{
 				Vector3 x, y, z;
-				Vector3.Normalize(ref forward, out z);
-				Vector3.Cross(ref forward, ref up, out x);
-				Vector3.Cross(ref x, ref forward, out y);
+				Vector3.Normalize(in forward, out z);
+				Vector3.Cross(in forward, in up, out x);
+				Vector3.Cross(in x, in forward, out y);
 				x.Normalize();
 				y.Normalize();
 
@@ -1558,7 +1558,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="matrix1">Source <see cref="Matrix"/>.</param>
 			/// <param name="matrix2">Divisor <see cref="Matrix"/>.</param>
 			/// <param name="result">The result of dividing the matrix as an output parameter.</param>
-			public static void Divide(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+			public static void Divide(in Matrix matrix1, in Matrix matrix2, out Matrix result)
 			{
 				result.M11 = matrix1.M11 / matrix2.M11;
 				result.M12 = matrix1.M12 / matrix2.M12;
@@ -1611,7 +1611,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="matrix1">Source <see cref="Matrix"/>.</param>
 			/// <param name="divider">Divisor scalar.</param>
 			/// <param name="result">The result of dividing a matrix by a scalar as an output parameter.</param>
-			public static void Divide(ref Matrix matrix1, float divider, out Matrix result)
+			public static void Divide(in Matrix matrix1, float divider, out Matrix result)
 			{
 				result.M11 = matrix1.M11 / divider;
 				result.M12 = matrix1.M12 / divider;
@@ -1638,7 +1638,7 @@ namespace Microsoft.Xna.Framework
 			/// <returns>The inverted matrix.</returns>
 			public static Matrix Invert(Matrix matrix)
 			{
-				Invert(ref matrix, out matrix);
+				Invert(in matrix, out matrix);
 				return matrix;
 			}
 
@@ -1647,7 +1647,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="matrix">Source <see cref="Matrix"/>.</param>
 			/// <param name="result">The inverted matrix as output parameter.</param>
-			public static void Invert(ref Matrix matrix, out Matrix result)
+			public static void Invert(in Matrix matrix, out Matrix result)
 			{
 				/*
 				 * Use Laplace expansion theorem to calculate the inverse of a 4x4 matrix.
@@ -1900,8 +1900,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="amount">Weighting value(between 0.0 and 1.0).</param>
 			/// <param name="result">The result of linear interpolation of the specified matrixes as an output parameter.</param>
 			public static void Lerp(
-				ref Matrix matrix1,
-				ref Matrix matrix2,
+				in Matrix matrix1,
+				in Matrix matrix2,
 				float amount,
 				out Matrix result
 			)
@@ -2056,7 +2056,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="matrix1">Source <see cref="Matrix"/>.</param>
 			/// <param name="matrix2">Source <see cref="Matrix"/>.</param>
 			/// <param name="result">Result of the matrix multiplication as an output parameter.</param>
-			public static void Multiply(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+			public static void Multiply(in Matrix matrix1, in Matrix matrix2, out Matrix result)
 			{
 				float m11 = (
 					(matrix1.M11 * matrix2.M11) +
@@ -2205,7 +2205,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="matrix1">Source <see cref="Matrix"/>.</param>
 			/// <param name="scaleFactor">Scalar value.</param>
 			/// <param name="result">Result of the matrix multiplication with a scalar as an output parameter.</param>
-			public static void Multiply(ref Matrix matrix1, float scaleFactor, out Matrix result)
+			public static void Multiply(in Matrix matrix1, float scaleFactor, out Matrix result)
 			{
 				result.M11 = matrix1.M11 * scaleFactor;
 				result.M12 = matrix1.M12 * scaleFactor;
@@ -2257,7 +2257,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="matrix">Source <see cref="Matrix"/>.</param>
 			/// <param name="result">Result of the matrix negation as an output parameter.</param>
-			public static void Negate(ref Matrix matrix, out Matrix result)
+			public static void Negate(in Matrix matrix, out Matrix result)
 			{
 				result.M11 = -matrix.M11;
 				result.M12 = -matrix.M12;
@@ -2310,7 +2310,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="matrix1">The first <see cref="Matrix"/>.</param>
 			/// <param name="matrix2">The second <see cref="Matrix"/>.</param>
 			/// <param name="result">The result of the matrix subtraction as an output parameter.</param>
-			public static void Subtract(ref Matrix matrix1, ref Matrix matrix2, out Matrix result)
+			public static void Subtract(in Matrix matrix1, in Matrix matrix2, out Matrix result)
 			{
 				result.M11 = matrix1.M11 - matrix2.M11;
 				result.M12 = matrix1.M12 - matrix2.M12;
@@ -2338,7 +2338,7 @@ namespace Microsoft.Xna.Framework
 			public static Matrix Transpose(Matrix matrix)
 			{
 				Matrix ret;
-				Transpose(ref matrix, out ret);
+				Transpose(in matrix, out ret);
 				return ret;
 			}
 
@@ -2347,7 +2347,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="matrix">The matrix for transposing operation.</param>
 			/// <param name="result">The new <see cref="Matrix"/> which contains the transposing result as an output parameter.</param>
-			public static void Transpose(ref Matrix matrix, out Matrix result)
+			public static void Transpose(in Matrix matrix, out Matrix result)
 			{
 				Matrix ret;
 
@@ -2377,18 +2377,18 @@ namespace Microsoft.Xna.Framework
 			public static Matrix Transform(Matrix value, Quaternion rotation)
 			{
 				Matrix result;
-				Transform(ref value, ref rotation, out result);
+				Transform(in value, in rotation, out result);
 				return result;
 			}
 
 			public static void Transform(
-				ref Matrix value,
-				ref Quaternion rotation,
+				in Matrix value,
+				in Quaternion rotation,
 				out Matrix result
 			)
 			{
 				Matrix rotMatrix = CreateFromQuaternion(rotation);
-				Multiply(ref value, ref rotMatrix, out result);
+				Multiply(in value, in rotMatrix, out result);
 			}
 
 			#endregion

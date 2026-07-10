@@ -177,7 +177,7 @@ namespace Microsoft.Xna.Framework
 		}
 
 
-		public void Intersects(ref BoundingBox box, out float? result)
+		public void Intersects(in BoundingBox box, out float? result)
 		{
 			result = Intersects(box);
 		}
@@ -185,25 +185,25 @@ namespace Microsoft.Xna.Framework
 		public float? Intersects(BoundingSphere sphere)
 		{
 			float? result;
-			Intersects(ref sphere, out result);
+			Intersects(in sphere, out result);
 			return result;
 		}
 
 		public float? Intersects(Plane plane)
 		{
 			float? result;
-			Intersects(ref plane, out result);
+			Intersects(in plane, out result);
 			return result;
 		}
 
 		public float? Intersects(BoundingFrustum frustum)
 		{
 			float? result;
-			frustum.Intersects(ref this, out result);
+			frustum.Intersects(in this, out result);
 			return result;
 		}
 
-		public void Intersects(ref Plane plane, out float? result)
+		public void Intersects(in Plane plane, out float? result)
 		{
 			float den = Vector3.Dot(Direction, plane.Normal);
 			if (Math.Abs(den) < 0.00001f)
@@ -226,7 +226,7 @@ namespace Microsoft.Xna.Framework
 			}
 		}
 
-		public void Intersects(ref BoundingSphere sphere, out float? result)
+		public void Intersects(in BoundingSphere sphere, out float? result)
 		{
 			// Find the vector between where the ray starts the the sphere's center.
 			Vector3 difference = sphere.Center - this.Position;
@@ -246,7 +246,7 @@ namespace Microsoft.Xna.Framework
 				return;
 			}
 
-			Vector3.Dot(ref this.Direction, ref difference, out distanceAlongRay);
+			Vector3.Dot(in this.Direction, in difference, out distanceAlongRay);
 			// If the ray is pointing away from the sphere then we don't ever intersect.
 			if (distanceAlongRay < 0)
 			{

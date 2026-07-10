@@ -72,12 +72,12 @@ namespace Microsoft.Xna.Framework
 
 		#region Public Methods
 
-		public void Contains(ref BoundingBox box, out ContainmentType result)
+		public void Contains(in BoundingBox box, out ContainmentType result)
 		{
 			result = Contains(box);
 		}
 
-		public void Contains(ref BoundingSphere sphere, out ContainmentType result)
+		public void Contains(in BoundingSphere sphere, out ContainmentType result)
 		{
 			result = this.Contains(sphere);
 		}
@@ -85,7 +85,7 @@ namespace Microsoft.Xna.Framework
 		public ContainmentType Contains(Vector3 point)
 		{
 			ContainmentType result;
-			this.Contains(ref point, out result);
+			this.Contains(in point, out result);
 			return result;
 		}
 
@@ -129,7 +129,7 @@ namespace Microsoft.Xna.Framework
 			// First we check if frustum is in box.
 			for (i = 0; i < corners.Length; i += 1)
 			{
-				this.Contains(ref corners[i], out contained);
+				this.Contains(in corners[i], out contained);
 				if (contained == ContainmentType.Disjoint)
 				{
 					break;
@@ -157,7 +157,7 @@ namespace Microsoft.Xna.Framework
 			i += 1;
 			for (; i < corners.Length; i += 1)
 			{
-				this.Contains(ref corners[i], out contained);
+				this.Contains(in corners[i], out contained);
 				if (contained != ContainmentType.Contains)
 				{
 					return ContainmentType.Intersects;
@@ -259,7 +259,7 @@ namespace Microsoft.Xna.Framework
 			return ContainmentType.Disjoint;
 		}
 
-		public void Contains(ref Vector3 point, out ContainmentType result)
+		public void Contains(in Vector3 point, out ContainmentType result)
 		{
 			// Determine if point is outside of this box.
 			if (	point.X < this.Min.X ||
@@ -332,7 +332,7 @@ namespace Microsoft.Xna.Framework
 			return ray.Intersects(this);
 		}
 
-		public void Intersects(ref Ray ray, out Nullable<float> result)
+		public void Intersects(in Ray ray, out Nullable<float> result)
 		{
 			result = Intersects(ray);
 		}
@@ -342,7 +342,7 @@ namespace Microsoft.Xna.Framework
 			return frustum.Intersects(this);
 		}
 
-		public void Intersects(ref BoundingSphere sphere, out bool result)
+		public void Intersects(in BoundingSphere sphere, out bool result)
 		{
 			result = Intersects(sphere);
 		}
@@ -350,18 +350,18 @@ namespace Microsoft.Xna.Framework
 		public bool Intersects(BoundingBox box)
 		{
 			bool result;
-			Intersects(ref box, out result);
+			Intersects(in box, out result);
 			return result;
 		}
 
 		public PlaneIntersectionType Intersects(Plane plane)
 		{
 			PlaneIntersectionType result;
-			Intersects(ref plane, out result);
+			Intersects(in plane, out result);
 			return result;
 		}
 
-		public void Intersects(ref BoundingBox box, out bool result)
+		public void Intersects(in BoundingBox box, out bool result)
 		{
 			if ((this.Max.X >= box.Min.X) && (this.Min.X <= box.Max.X))
 			{
@@ -425,7 +425,7 @@ namespace Microsoft.Xna.Framework
 			return (dmin <= radiusSq);
 		}
 
-		public void Intersects(ref Plane plane, out PlaneIntersectionType result)
+		public void Intersects(in Plane plane, out PlaneIntersectionType result)
 		{
 			// See http://zach.in.tu-clausthal.de/teaching/cg_literatur/lighthouse3d_view_frustum_culling/index.html
 
@@ -546,11 +546,11 @@ namespace Microsoft.Xna.Framework
 		public static BoundingBox CreateFromSphere(BoundingSphere sphere)
 		{
 			BoundingBox result;
-			CreateFromSphere(ref sphere, out result);
+			CreateFromSphere(in sphere, out result);
 			return result;
 		}
 
-		public static void CreateFromSphere(ref BoundingSphere sphere, out BoundingBox result)
+		public static void CreateFromSphere(in BoundingSphere sphere, out BoundingBox result)
 		{
 			Vector3 corner = new Vector3(sphere.Radius);
 			result.Min = sphere.Center - corner;
@@ -560,11 +560,11 @@ namespace Microsoft.Xna.Framework
 		public static BoundingBox CreateMerged(BoundingBox original, BoundingBox additional)
 		{
 			BoundingBox result;
-			CreateMerged(ref original, ref additional, out result);
+			CreateMerged(in original, in additional, out result);
 			return result;
 		}
 
-		public static void CreateMerged(ref BoundingBox original, ref BoundingBox additional, out BoundingBox result)
+		public static void CreateMerged(in BoundingBox original, in BoundingBox additional, out BoundingBox result)
 		{
 			result.Min.X = Math.Min(original.Min.X, additional.Min.X);
 			result.Min.Y = Math.Min(original.Min.Y, additional.Min.Y);

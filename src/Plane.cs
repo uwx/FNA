@@ -91,7 +91,7 @@ namespace Microsoft.Xna.Framework
 			);
 		}
 
-		public void Dot(ref Vector4 value, out float result)
+		public void Dot(in Vector4 value, out float result)
 		{
 			result = (
 				(this.Normal.X * value.X) +
@@ -111,7 +111,7 @@ namespace Microsoft.Xna.Framework
 			);
 		}
 
-		public void DotCoordinate(ref Vector3 value, out float result)
+		public void DotCoordinate(in Vector3 value, out float result)
 		{
 			result = (
 				(this.Normal.X * value.X) +
@@ -130,7 +130,7 @@ namespace Microsoft.Xna.Framework
 			);
 		}
 
-		public void DotNormal(ref Vector3 value, out float result)
+		public void DotNormal(in Vector3 value, out float result)
 		{
 			result = (
 				(this.Normal.X * value.X) +
@@ -152,7 +152,7 @@ namespace Microsoft.Xna.Framework
 			return box.Intersects(this);
 		}
 
-		public void Intersects(ref BoundingBox box, out PlaneIntersectionType result)
+		public void Intersects(in BoundingBox box, out PlaneIntersectionType result)
 		{
 			box.Intersects(ref this, out result);
 		}
@@ -162,7 +162,7 @@ namespace Microsoft.Xna.Framework
 			return sphere.Intersects(this);
 		}
 
-		public void Intersects(ref BoundingSphere sphere, out PlaneIntersectionType result)
+		public void Intersects(in BoundingSphere sphere, out PlaneIntersectionType result)
 		{
 			sphere.Intersects(ref this, out result);
 		}
@@ -176,10 +176,10 @@ namespace Microsoft.Xna.Framework
 
 		#region Internal Methods
 
-		internal PlaneIntersectionType Intersects(ref Vector3 point)
+		internal PlaneIntersectionType Intersects(in Vector3 point)
 		{
 			float distance;
-			DotCoordinate(ref point, out distance);
+			DotCoordinate(in point, out distance);
 			if (distance > 0)
 			{
 				return PlaneIntersectionType.Front;
@@ -198,15 +198,15 @@ namespace Microsoft.Xna.Framework
 		public static Plane Normalize(Plane value)
 		{
 			Plane ret;
-			Normalize(ref value, out ret);
+			Normalize(in value, out ret);
 			return ret;
 		}
 
-		public static void Normalize(ref Plane value, out Plane result)
+		public static void Normalize(in Plane value, out Plane result)
 		{
 			float length = value.Normal.Length();
 			float factor = 1.0f / length;
-			Vector3.Multiply(ref value.Normal, factor, out result.Normal);
+			Vector3.Multiply(in value.Normal, factor, out result.Normal);
 			result.D = value.D * factor;
 		}
 
@@ -219,7 +219,7 @@ namespace Microsoft.Xna.Framework
 		public static Plane Transform(Plane plane, Matrix matrix)
 		{
 			Plane result;
-			Transform(ref plane, ref matrix, out result);
+			Transform(in plane, in matrix, out result);
 			return result;
 		}
 
@@ -230,8 +230,8 @@ namespace Microsoft.Xna.Framework
 		/// <param name="matrix">The transformation matrix.</param>
 		/// <param name="result">The transformed plane.</param>
 		public static void Transform(
-			ref Plane plane,
-			ref Matrix matrix,
+			in Plane plane,
+			in Matrix matrix,
 			out Plane result
 		) {
 			/* See "Transforming Normals" in
@@ -239,16 +239,16 @@ namespace Microsoft.Xna.Framework
 			 * for an explanation of how this works.
 			 */
 			Matrix transformedMatrix;
-			Matrix.Invert(ref matrix, out transformedMatrix);
+			Matrix.Invert(in matrix, out transformedMatrix);
 			Matrix.Transpose(
-				ref transformedMatrix,
+				in transformedMatrix,
 				out transformedMatrix
 			);
 			Vector4 vector = new Vector4(plane.Normal, plane.D);
 			Vector4 transformedVector;
 			Vector4.Transform(
-				ref vector,
-				ref transformedMatrix,
+				in vector,
+				in transformedMatrix,
 				out transformedVector
 			);
 			result = new Plane(transformedVector);
@@ -263,7 +263,7 @@ namespace Microsoft.Xna.Framework
 		public static Plane Transform(Plane plane, Quaternion rotation)
 		{
 			Plane result;
-			Transform(ref plane, ref rotation, out result);
+			Transform(in plane, in rotation, out result);
 			return result;
 		}
 
@@ -274,13 +274,13 @@ namespace Microsoft.Xna.Framework
 		/// <param name="rotation">The quaternion rotation.</param>
 		/// <param name="result">The transformed plane.</param>
 		public static void Transform(
-			ref Plane plane,
-			ref Quaternion rotation,
+			in Plane plane,
+			in Quaternion rotation,
 			out Plane result
 		) {
 			Vector3.Transform(
-				ref plane.Normal,
-				ref rotation,
+				in plane.Normal,
+				in rotation,
 				out result.Normal
 			);
 			result.D = plane.D;
