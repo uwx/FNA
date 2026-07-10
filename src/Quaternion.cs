@@ -167,8 +167,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="quaternion2">Source <see cref="Quaternion"/>.</param>
 			/// <param name="result">The result of the quaternion addition as an output parameter.</param>
 			public static void Add(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				out Quaternion result
 			)
 			{
@@ -198,8 +198,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="value2">The second <see cref="Quaternion"/> to concatenate.</param>
 			/// <param name="result">The result of rotation of <paramref name="value1"/> followed by <paramref name="value2"/> rotation as an output parameter.</param>
 			public static void Concatenate(
-				ref Quaternion value1,
-				ref Quaternion value2,
+				ref readonly Quaternion value1,
+				ref readonly Quaternion value2,
 				out Quaternion result
 			)
 			{
@@ -234,7 +234,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="value">The quaternion which values will be used to create the conjugated version.</param>
 			/// <param name="result">The conjugated version of the specified quaternion as an output parameter.</param>
-			public static void Conjugate(ref Quaternion value, out Quaternion result)
+			public static void Conjugate(ref readonly Quaternion value, out Quaternion result)
 			{
 				result.X = -value.X;
 				result.Y = -value.Y;
@@ -262,7 +262,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="angle">The angle in radians.</param>
 			/// <param name="result">The new quaternion builded from axis and angle as an output parameter.</param>
 			public static void CreateFromAxisAngle(
-				ref Vector3 axis,
+				ref readonly Vector3 axis,
 				float angle,
 				out Quaternion result
 			)
@@ -293,7 +293,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="matrix">The rotation matrix.</param>
 			/// <param name="result">A quaternion composed from the rotation part of the matrix as an output parameter.</param>
-			public static void CreateFromRotationMatrix(ref Matrix matrix, out Quaternion result)
+			public static void CreateFromRotationMatrix(ref readonly Matrix matrix, out Quaternion result)
 			{
 				float sqrt;
 				float half;
@@ -403,8 +403,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="quaternion2">Divisor <see cref="Quaternion"/>.</param>
 			/// <param name="result">The result of dividing the quaternions as an output parameter.</param>
 			public static void Divide(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				out Quaternion result
 			)
 			{
@@ -456,8 +456,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="quaternion2">The second quaternion.</param>
 			/// <param name="result">The dot product of two quaternions as an output parameter.</param>
 			public static void Dot(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				out float result
 			)
 			{
@@ -486,7 +486,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="quaternion">Source <see cref="Quaternion"/>.</param>
 			/// <param name="result">The inverse quaternion as an output parameter.</param>
-			public static void Inverse(ref Quaternion quaternion, out Quaternion result)
+			public static void Inverse(ref readonly Quaternion quaternion, out Quaternion result)
 			{
 				float num2 = (
 					(quaternion.X * quaternion.X) +
@@ -527,8 +527,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="amount">The blend amount where 0 returns <paramref name="quaternion1"/> and 1 <paramref name="quaternion2"/>.</param>
 			/// <param name="result">The result of linear blending between two quaternions as an output parameter.</param>
 			public static void Lerp(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				float amount,
 				out Quaternion result
 			)
@@ -595,8 +595,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="amount">The blend amount where 0 returns <paramref name="quaternion1"/> and 1 <paramref name="quaternion2"/>.</param>
 			/// <param name="result">The result of spherical linear blending between two quaternions as an output parameter.</param>
 			public static void Slerp(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				float amount,
 				out Quaternion result
 			)
@@ -656,8 +656,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="quaternion2">Source <see cref="Quaternion"/>.</param>
 			/// <param name="result">The result of the quaternion subtraction as an output parameter.</param>
 			public static void Subtract(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				out Quaternion result
 			)
 			{
@@ -700,8 +700,8 @@ namespace Microsoft.Xna.Framework
 			/// <param name="quaternion2">Source <see cref="Quaternion"/>.</param>
 			/// <param name="result">The result of the quaternion multiplication as an output parameter.</param>
 			public static void Multiply(
-				ref Quaternion quaternion1,
-				ref Quaternion quaternion2,
+				ref readonly Quaternion quaternion1,
+				ref readonly Quaternion quaternion2,
 				out Quaternion result
 			)
 			{
@@ -730,7 +730,7 @@ namespace Microsoft.Xna.Framework
 			/// <param name="scaleFactor">Scalar value.</param>
 			/// <param name="result">The result of the quaternion multiplication with a scalar as an output parameter.</param>
 			public static void Multiply(
-				ref Quaternion quaternion1,
+				ref readonly Quaternion quaternion1,
 				float scaleFactor,
 				out Quaternion result
 			)
@@ -761,7 +761,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="quaternion">Source <see cref="Quaternion"/>.</param>
 			/// <param name="result">The result of the quaternion negation as an output parameter.</param>
-			public static void Negate(ref Quaternion quaternion, out Quaternion result)
+			public static void Negate(ref readonly Quaternion quaternion, out Quaternion result)
 			{
 				result.X = -quaternion.X;
 				result.Y = -quaternion.Y;
@@ -774,7 +774,7 @@ namespace Microsoft.Xna.Framework
 			/// </summary>
 			/// <param name="quaternion">Source <see cref="Quaternion"/>.</param>
 			/// <param name="result">The unit length quaternion an output parameter.</param>
-			public static void Normalize(ref Quaternion quaternion, out Quaternion result)
+			public static void Normalize(ref readonly Quaternion quaternion, out Quaternion result)
 			{
 				float num = 1.0f / ((float) Math.Sqrt(
 					(quaternion.X * quaternion.X) +

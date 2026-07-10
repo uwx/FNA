@@ -1100,7 +1100,7 @@ namespace Microsoft.Xna.Framework
 
 	public static class ExtensionsVector2_2
 	{
-		extension(Vector2 vec)
+		extension(ref Vector2 vec)
 		{
 			/// <summary>
 			/// Turns this <see cref="Vector2"/> to a unit vector with the same direction.
