@@ -292,7 +292,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		 * its finalizer or shareability for this scenario since every
 		 * GraphicsResource has a finalizer.
 		 */
-		private readonly List<GCHandle> resources = new List<GCHandle>();
+		private readonly HashSet<GCHandle> resources = new HashSet<GCHandle>();
 		private readonly object resourcesLock = new object();
 
 		#endregion
@@ -517,12 +517,13 @@ namespace Microsoft.Xna.Framework.Graphics
 					lock (resourcesLock)
 					{
 						/* NOTE: It is very important to make a copy of the resource handles and then clear
-						 *  the array. This enables RemoveResourceReference to identify whether the handle
+						 *  the set. This enables RemoveResourceReference to identify whether the handle
 						 *  has already been disposed or not, to prevent us from freeing a given handle twice.
 						 * Freeing a GCHandle twice is very bad, and GCHandle.IsAllocated is not accurate once
 						 *  you make a copy of the handle.
 						 */
-						GCHandle[] resourceArray = resources.ToArray();
+						GCHandle[] resourceArray = new GCHandle[resources.Count];
+						resources.CopyTo(resourceArray);
 						resources.Clear();
 						foreach (GCHandle resource in resourceArray)
 						{
@@ -575,21 +576,8 @@ namespace Microsoft.Xna.Framework.Graphics
 		{
 			lock (resourcesLock)
 			{
-				// Scan the list and do value comparisons (List.Remove will box the handles)
-				for (int i = 0, c = resources.Count; i < c; i++)
-				{
-					if (resources[i] != resourceReference)
-						continue;
-
-					// Perform an unordered removal, the order of items in this list does not matter
-					resources[i] = resources[resources.Count - 1];
-					resources.RemoveAt(resources.Count - 1);
-					return true;
-				}
+				return resources.Remove(resourceReference);
 			}
-
-			// The GCHandle was already freed, most likely by GraphicsDevice.Dispose
-			return false;
 		}
 
 		#endregion
