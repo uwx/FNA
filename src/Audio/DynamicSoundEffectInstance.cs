@@ -230,6 +230,56 @@ namespace Microsoft.Xna.Framework.Audio
 			}
 		}
 
+		public void SubmitFloatBufferEXT(ReadOnlySpan<float> buffer)
+		{
+			/* Float samples are the typical format received from decoders.
+			 * We currently use this for the VideoPlayer.
+			 * -flibit
+			 */
+			if (State != SoundState.Stopped && format.wFormatTag == 1)
+			{
+				throw new InvalidOperationException(
+					"Submit a float buffer before Playing!"
+				);
+			}
+			format.wFormatTag = 3;
+			format.wBitsPerSample = 32;
+			format.nBlockAlign = (ushort) (4 * format.nChannels);
+			format.nAvgBytesPerSec = format.nBlockAlign * format.nSamplesPerSec;
+
+			IntPtr next = FNAPlatform.Malloc(buffer.Length * sizeof(float));
+			unsafe
+			{
+				var nextSpan = new Span<float>((float*) next, buffer.Length);
+				buffer.CopyTo(nextSpan);
+			}
+
+			lock (queuedBuffers)
+			{
+				queuedBuffers.Add(next);
+				if (State != SoundState.Stopped)
+				{
+					FAudio.FAudioBuffer buf = new FAudio.FAudioBuffer();
+					buf.AudioBytes = (uint) buffer.Length * sizeof(float);
+					buf.pAudioData = next;
+					buf.PlayLength = (
+						buf.AudioBytes /
+						(uint) channels /
+						(uint) (format.wBitsPerSample / 8)
+					);
+					FAudio.FAudioSourceVoice_SubmitSourceBuffer(
+						handle,
+						ref buf,
+						IntPtr.Zero
+					);
+				}
+				else
+				{
+					queuedSizes.Add((uint) buffer.Length * sizeof(float));
+				}
+			}
+		}
+
 		#endregion
 
 		#region Protected Methods
