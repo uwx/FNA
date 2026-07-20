@@ -12,6 +12,7 @@ using System;
 using System.Collections;
 using System.Collections.Frozen;
 using System.ComponentModel;
+using System.ComponentModel.Design.Serialization;
 using System.Globalization;
 #endregion
 
@@ -524,6 +525,16 @@ namespace Microsoft.Xna.Framework.Design
 						src.B.ToString(culture),
 						src.A.ToString(culture)
 					}
+				);
+			}
+			else if (destinationType == typeof(InstanceDescriptor))
+			{
+				Color color = (Color) value;
+				return new InstanceDescriptor(
+					typeof(Color).GetConstructor(
+						new Type[] { typeof(byte), typeof(byte), typeof(byte), typeof(byte) }
+					),
+					new byte[] { color.R, color.G, color.B, color.A }
 				);
 			}
 			return base.ConvertTo(context, culture, value, destinationType);
