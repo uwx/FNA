@@ -177,6 +177,27 @@ namespace Microsoft.Xna.Framework.Audio
 		) {
 		}
 
+		public SoundEffect(
+			ReadOnlySpan<byte> buffer,
+			int sampleRate,
+			AudioChannels channels,
+			int loopStart,
+			int loopLength
+		) : this(
+			null,
+			buffer,
+			null,
+			1,
+			(ushort) channels,
+			(uint) sampleRate,
+			(uint) (sampleRate * ((ushort) channels * 2)),
+			(ushort) ((ushort) channels * 2),
+			16,
+			loopStart,
+			loopLength
+		) {
+		}
+
 		#endregion
 
 		#region Internal Constructor
