@@ -78,8 +78,8 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 Matrix worldViewProj;
                 
-                Matrix.Multiply(ref world, ref view, out worldView);
-                Matrix.Multiply(ref worldView, ref projection, out worldViewProj);
+                Matrix.Multiply(in world, in view, out worldView);
+                Matrix.Multiply(in worldView, in projection, out worldViewProj);
                 
                 worldViewProjParam.SetValue(worldViewProj);
                 
@@ -155,8 +155,8 @@ namespace Microsoft.Xna.Framework.Graphics
                 Matrix worldTranspose;
                 Matrix worldInverseTranspose;
                 
-                Matrix.Invert(ref world, out worldTranspose);
-                Matrix.Transpose(ref worldTranspose, out worldInverseTranspose);
+                Matrix.Invert(in world, out worldTranspose);
+                Matrix.Transpose(in worldTranspose, out worldInverseTranspose);
                 
                 worldParam.SetValue(world);
                 worldInverseTransposeParam.SetValue(worldInverseTranspose);
@@ -169,7 +169,7 @@ namespace Microsoft.Xna.Framework.Graphics
             {
                 Matrix viewInverse;
                 
-                Matrix.Invert(ref view, out viewInverse);
+                Matrix.Invert(in view, out viewInverse);
 
                 eyePositionParam.SetValue(viewInverse.Translation);
 
