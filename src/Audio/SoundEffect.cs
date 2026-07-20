@@ -183,6 +183,35 @@ namespace Microsoft.Xna.Framework.Audio
 
 		internal unsafe SoundEffect(
 			string name,
+			byte[] buffer,
+			int offset,
+			int count,
+			byte[] extraData,
+			ushort wFormatTag,
+			ushort nChannels,
+			uint nSamplesPerSec,
+			uint nAvgBytesPerSec,
+			ushort nBlockAlign,
+			ushort wBitsPerSample,
+			int loopStart,
+			int loopLength
+		) : this(
+			name,
+			buffer.AsSpan(offset, count),
+			extraData,
+			wFormatTag,
+			nChannels,
+			nSamplesPerSec,
+			nAvgBytesPerSec,
+			nBlockAlign,
+			wBitsPerSample,
+			loopStart,
+			loopLength
+		) {
+		}
+
+		internal unsafe SoundEffect(
+			string name,
 			ReadOnlySpan<byte> buffer,
 			byte[] extraData,
 			ushort wFormatTag,
