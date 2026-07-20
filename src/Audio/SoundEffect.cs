@@ -136,14 +136,12 @@ namespace Microsoft.Xna.Framework.Audio
 		#region Public Constructors
 
 		public SoundEffect(
-			byte[] buffer,
+			ReadOnlySpan<byte> buffer,
 			int sampleRate,
 			AudioChannels channels
 		) : this(
 			null,
 			buffer,
-			0,
-			buffer.Length,
 			null,
 			1,
 			(ushort) channels,
@@ -166,9 +164,7 @@ namespace Microsoft.Xna.Framework.Audio
 			int loopLength
 		) : this(
 			null,
-			buffer,
-			offset,
-			count,
+			buffer.AsSpan(offset, count),
 			null,
 			1,
 			(ushort) channels,
@@ -187,9 +183,7 @@ namespace Microsoft.Xna.Framework.Audio
 
 		internal unsafe SoundEffect(
 			string name,
-			byte[] buffer,
-			int offset,
-			int count,
+			ReadOnlySpan<byte> buffer,
 			byte[] extraData,
 			ushort wFormatTag,
 			ushort nChannels,
@@ -244,21 +238,17 @@ namespace Microsoft.Xna.Framework.Audio
 			handle.pContext = IntPtr.Zero;
 
 			/* Buffer data */
-			handle.AudioBytes = (uint) count;
-			handle.pAudioData = FNAPlatform.Malloc(count);
-			Marshal.Copy(
-				buffer,
-				offset,
-				handle.pAudioData,
-				count
-			);
+			handle.AudioBytes = (uint) buffer.Length;
+			handle.pAudioData = FNAPlatform.Malloc(buffer.Length);
+			var audioDataSpan = new Span<byte>((byte*) handle.pAudioData, buffer.Length);
+			buffer.CopyTo(audioDataSpan);
 
 			/* Play regions */
 			handle.PlayBegin = 0;
 			if (wFormatTag == 1)
 			{
 				handle.PlayLength = (uint) (
-					count /
+					buffer.Length /
 					nChannels /
 					(wBitsPerSample / 8)
 				);
@@ -266,7 +256,7 @@ namespace Microsoft.Xna.Framework.Audio
 			else if (wFormatTag == 2)
 			{
 				handle.PlayLength = (uint) (
-					count /
+					buffer.Length /
 					nBlockAlign *
 					(((nBlockAlign / nChannels) - 6) * 2)
 				);
@@ -616,11 +606,11 @@ namespace Microsoft.Xna.Framework.Audio
 					ReverbVoice = IntPtr.Zero;
 					FNAPlatform.Free(reverbSends.pSends);
 				}
-				if (MasterVoice != IntPtr.Zero) 
+				if (MasterVoice != IntPtr.Zero)
 				{
 					FAudio.FAudioVoice_DestroyVoice(MasterVoice);
 				}
-				if (Handle != IntPtr.Zero) 
+				if (Handle != IntPtr.Zero)
 				{
 					FAudio.FAudio_Release(Handle);
 				}
